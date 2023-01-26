@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script defer src="./dist/bundle.js" type="module"></script>
+    <title>Todo List</title>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo right">Todo</a>
+        <ul id="nav-mobile">
+          <li class="logged-in"><a href="#" id="logout">Logout</a></li>
+          <li class="logged-out">
+            <a href="#" class="modal-trigger" data-target="modal-login"
+              >Login</a
+            >
+          </li>
+          <li class="logged-out">
+            <a href="#" class="modal-trigger" data-target="modal-signup"
+              >Sign up</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <form id="add-todo-form">
+        <input type="text" name="title" placeholder="Add Task" />
+        <button class="waves-effect waves-light btn">Add Task</button>
+      </form>
+
+      <ul id="todo-list" class="collection">
+        <!-- <li class="collection-item">
+          <div>
+            <span>Buying food</span>
+            <i class="material-icons secondary-content">delete</i>
+            <a href="#modal1" class="modal-trigger secondary-content">
+              <i class="material-icons">edit</i></a
+            >
+          </div>
+        </li> -->
+      </ul>
+
+      <!-- EDIT MODAL -->
+      <div id="modal-edit" class="modal">
+        <div class="modal-content">
+          <input
+            class="update_text"
+            type="text"
+            name="newtitle"
+            placeholder="Update Task"
+          />
+        </div>
+        <div class="modal-footer">
+          <a
+            href="#!"
+            id="update"
+            class="modal-close waves-effect waves-green btn-flat"
+            >Update</a
+          >
+        </div>
+      </div>
+      <!-- LOGIN MODAL -->
+      <div id="modal-login" class="modal">
+        <div class="modal-content">
+          <h4>Login</h4>
+          <form action="">
+            <div class="input-field">
+              <input type="email" id="login-email" required />
+              <label>Email address</label>
+            </div>
+            <div class="input-field">
+              <input type="password" id="login-password" required />
+              <label>Password</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            href="#!"
+            class="modal-close waves-effect waves-green btn-flat"
+          >
+            login
+          </button>
+          <p class="error pink-text center-align"></p>
+        </div>
+      </div>
+      <!-- SIGNUP MODAL -->
+      <div id="modal-signup" class="modal">
+        <div class="modal-content">
+          <h4>Sign up</h4>
+          <form action="">
+            <div class="input-field">
+              <input type="email" id="signup-email" required />
+              <label>Email address</label>
+            </div>
+            <div class="input-field">
+              <input type="password" id="signup-password" required />
+              <label>Password</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button
+            href="#!"
+            class="modal-close waves-effect waves-green btn-flat"
+          >
+            signup
+          </button>
+          <p class="error pink-text center-align"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

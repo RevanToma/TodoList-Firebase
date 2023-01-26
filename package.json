@@ -1,0 +1,18 @@
+{
+  "name": "todo-list-firebase",
+  "version": "1.0.0",
+  "description": "Todo List",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --watch --mode=development"
+  },
+  "author": "Revan Toma",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^9.16.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
