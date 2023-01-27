@@ -12,11 +12,13 @@ import {
   doc,
   getDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
-
+import { getAuth } from "firebase/auth";
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 const db = getFirestore();
+
 /*Obs! Här används colletion "task" - se till att du skapar en ny collection med
  * samma namn Firebase console -> Build -> Firestore Database -> Start collection
  */
@@ -26,12 +28,31 @@ const db = getFirestore();
  * @param {string} title uppgiftens titel
  * @param {string} description beskrivning av uppgift
  */
-export const saveTask = (title, description = undefined) =>
-  addDoc(collection(db, "todos"), { ...title, ...description });
-
+// export const saveTask = (user, title, description = undefined) => {
+//   const task = { userId: user.uid, ...title, ...description };
+//   addDoc(collection(db, "alltodos"), task);
+// };
+export const saveTask = (title, description = undefined) => {
+  addDoc(collection(db, "todos"), {
+    ...title,
+    ...description,
+  });
+};
 // Lyssnar på förändringar och uppdaterar dem i collection
-export const onGetTasks = (callback) =>
-  onSnapshot(collection(db, "todos"), callback);
+// export const onGetTasks = (callback) =>
+//   onSnapshot(collection(db, "todos"), callback);
+
+export const onGetTasks = (callback) => {
+  const currentUser = getAuth().currentUser;
+  if (currentUser) {
+    const currentUserId = currentUser.uid;
+    onSnapshot(
+      collection(db, "todos"),
+      where("userId", "==", currentUserId),
+      callback
+    );
+  }
+};
 
 /**
  * Tar bort en ny uppgift

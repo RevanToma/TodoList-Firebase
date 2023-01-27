@@ -22,6 +22,7 @@
         <a href="#" class="brand-logo right">Todo</a>
         <ul id="nav-mobile">
           <li class="logged-in"><a href="#" id="logout">Logout</a></li>
+          <li class="logged-in" id="user-email"></li>
           <li class="logged-out">
             <a href="#" class="modal-trigger" data-target="modal-login"
               >Login</a
@@ -36,7 +37,7 @@
       </div>
     </nav>
     <div class="container">
-      <form id="add-todo-form">
+      <form id="add-todo-form" class="logged-in">
         <input type="text" name="title" placeholder="Add Task" />
         <button class="waves-effect waves-light btn">Add Task</button>
       </form>
@@ -76,7 +77,7 @@
       <div id="modal-login" class="modal">
         <div class="modal-content">
           <h4>Login</h4>
-          <form action="">
+          <form action="" id="login-form">
             <div class="input-field">
               <input type="email" id="login-email" required />
               <label>Email address</label>
@@ -85,23 +86,23 @@
               <input type="password" id="login-password" required />
               <label>Password</label>
             </div>
+            <p class="error pink-text center-align"></p>
+            <div class="modal-footer">
+              <button
+                href="#!"
+                class="modal-close waves-effect waves-green btn-flat"
+              >
+                login
+              </button>
+            </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            href="#!"
-            class="modal-close waves-effect waves-green btn-flat"
-          >
-            login
-          </button>
-          <p class="error pink-text center-align"></p>
         </div>
       </div>
       <!-- SIGNUP MODAL -->
       <div id="modal-signup" class="modal">
         <div class="modal-content">
           <h4>Sign up</h4>
-          <form action="">
+          <form action="" id="signup-form">
             <div class="input-field">
               <input type="email" id="signup-email" required />
               <label>Email address</label>
@@ -110,16 +111,11 @@
               <input type="password" id="signup-password" required />
               <label>Password</label>
             </div>
+            <p class="error pink-text center-align"></p>
+            <div class="modal-footer">
+              <button class="waves-effect waves-green btn-flat">signup</button>
+            </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            href="#!"
-            class="modal-close waves-effect waves-green btn-flat"
-          >
-            signup
-          </button>
-          <p class="error pink-text center-align"></p>
         </div>
       </div>
     </div>
