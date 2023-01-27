@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, firebase } from "firebase/app";
-import { todoContainer } from "./config";
-import { firebaseConfig } from "./config.js";
+import { initializeApp } from "firebase/app";
+import { todoContainer, firebaseConfig } from "./config.js";
+
 import {
   getFirestore,
   collection,
@@ -38,10 +38,8 @@ export const saveTask = (title, description = undefined) => {
     ...description,
   });
 };
-// Lyssnar på förändringar och uppdaterar dem i collection
-// export const onGetTasks = (callback) =>
-//   onSnapshot(collection(db, "todos"), callback);
 
+// Lyssnar på förändringar och uppdaterar dem i collection för rätt user.
 export const onGetTasks = (callback) => {
   const currentUser = getAuth().currentUser;
   if (currentUser) {
@@ -77,7 +75,7 @@ export const updateTask = (id, title) => updateDoc(doc(db, "todos", id), title);
  * Hämtar alla uppgifter
  */
 export const getTasks = () => getDocs(collection(db, "todos"));
-// render list
+// renderar todolist
 export const renderList = function (todos, doc) {
   let markup = `
       <div>

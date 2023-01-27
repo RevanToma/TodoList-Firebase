@@ -1,6 +1,4 @@
 import {
-  getTasks,
-  getTask,
   saveTask,
   onGetTasks,
   deleteTask,
@@ -20,13 +18,14 @@ import {
 } from "./config.js";
 import { getAuth } from "firebase/auth";
 import { createUser, signIn } from "./auth.js";
-import { onSnapshot } from "firebase/firestore";
 const auth = getAuth();
 let newTitle = document.querySelector(".update_text");
 let updateID;
 let currentUser = getAuth().currentUser;
+const preLoader = document.querySelector(".preloader-wrapper");
 
-document.addEventListener("DOMContentLoaded", function () {
+// load Materialize
+document.addEventListener("DOMContentLoaded", () => {
   const elems = document.querySelectorAll(".modal");
   const instances = M.Modal.init(elems);
 });
@@ -45,7 +44,8 @@ function getTodos() {
   EMAIL.innerHTML = currentUser ? currentUser.email : "";
 
   if (currentUser === null) {
-    todoContainer.innerHTML = `<h3 class="center-align">Please login to get todos</h3>`;
+    todoContainer.innerHTML = `<h3 class="center-align">Please login to use the Todo-list App</h3>`;
+
     return;
   }
 
@@ -100,26 +100,33 @@ form.addEventListener("submit", (e) => {
   form.title.value = "";
 });
 
-loginForm.addEventListener("click", (e) => {
+loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = loginForm["login-email"].value;
   const password = loginForm["login-password"].value;
 
-  signIn(auth, email, password)
-    .then(() => {
-      const modal = document.querySelector("#modal-login");
-      M.Modal.getInstance(modal).close();
-      loginForm.reset();
+  todoContainer.classList.add("center-align");
+  preLoader.classList.add("active");
+  todoContainer.innerHTML = `<h3 class="center-align">Loging in...</h3>`;
+  todoContainer.append(preLoader);
+  setTimeout(() => {
+    signIn(auth, email, password)
+      .then(() => {
+        const modal = document.querySelector("#modal-login");
+        M.Modal.getInstance(modal).close();
+        loginForm.reset();
+        preLoader.classList.remove("active");
+        todoContainer.classList.remove("center-align");
 
-      loginForm.querySelector(".error").innerHTML = "";
-    })
-    .catch((err) => {
-      loginForm.querySelector(".error").innerHTML = err.message;
-    });
+        loginForm.querySelector(".error").innerHTML = "";
+      })
+      .catch((err) => {
+        loginForm.querySelector(".error").innerHTML = err.message;
+      });
+  }, 1000);
 });
-
-signupForm.addEventListener("click", (e) => {
+signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = signupForm["signup-email"].value;

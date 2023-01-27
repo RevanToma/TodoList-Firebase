@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="./src/css/styles.css" />
     <script defer src="./dist/bundle.js" type="module"></script>
     <title>Todo List</title>
   </head>
@@ -28,6 +29,7 @@
               >Login</a
             >
           </li>
+
           <li class="logged-out">
             <a href="#" class="modal-trigger" data-target="modal-signup"
               >Sign up</a
@@ -36,6 +38,7 @@
         </ul>
       </div>
     </nav>
+
     <div class="container">
       <form id="add-todo-form" class="logged-in">
         <input type="text" name="title" placeholder="Add Task" />
@@ -43,6 +46,19 @@
       </form>
 
       <ul id="todo-list" class="collection">
+        <div class="preloader-wrapper">
+          <div class="spinner-layer spinner-red-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
         <!-- <li class="collection-item">
           <div>
             <span>Buying food</span>
