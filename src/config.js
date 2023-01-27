@@ -17,3 +17,7 @@ export const logout = document.querySelector("#logout");
 export const loginForm = document.querySelector("#login-form");
 export const signupForm = document.querySelector("#signup-form");
 export const EMAIL = document.querySelector("#user-email");
+export const forgotPasswordBtn = document.querySelector("#forgotPassword");
+export const forgotEmailInput = document.querySelector("#forgotPassword-email");
+export const preLoader = document.querySelector(".preloader-wrapper");
+export const PRELOADER_TIMER = 1.5;

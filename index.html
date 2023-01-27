@@ -89,6 +89,29 @@
           >
         </div>
       </div>
+      <!-- Forgot PAssword -->
+      <div id="modal-forgotPassword" class="modal">
+        <div class="modal-content">
+          <h4>Forgot Password</h4>
+          <form action="" id="forgotPassword-form">
+            <div class="input-field">
+              <input type="email" id="forgotPassword-email" required />
+              <label>Email address</label>
+            </div>
+            <p class="error pink-text center-align"></p>
+            <div class="modal-footer">
+              <button
+                href="#!"
+                class="modal-close waves-effect waves-green btn-flat"
+                id="forgotPassword"
+              >
+                Forgot Password
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
       <!-- LOGIN MODAL -->
       <div id="modal-login" class="modal">
         <div class="modal-content">
@@ -109,6 +132,14 @@
                 class="modal-close waves-effect waves-green btn-flat"
               >
                 login
+              </button>
+
+              <button
+                href="#"
+                class="modal-trigger modal-close waves-effect waves-green btn-flat"
+                data-target="modal-forgotPassword"
+              >
+                Forgot Password
               </button>
             </div>
           </form>

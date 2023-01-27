@@ -4,6 +4,7 @@ import {
   deleteTask,
   updateTask,
   renderList,
+  resetPassword,
 } from "./helpers";
 import {
   todoContainer,
@@ -15,20 +16,29 @@ import {
   loginForm,
   signupForm,
   EMAIL,
+  forgotPasswordBtn,
+  forgotEmailInput,
+  preLoader,
+  PRELOADER_TIMER,
 } from "./config.js";
 import { getAuth } from "firebase/auth";
 import { createUser, signIn } from "./auth.js";
+
 const auth = getAuth();
 let newTitle = document.querySelector(".update_text");
 let updateID;
 let currentUser = getAuth().currentUser;
-const preLoader = document.querySelector(".preloader-wrapper");
 
 // load Materialize
 document.addEventListener("DOMContentLoaded", () => {
   const elems = document.querySelectorAll(".modal");
   const instances = M.Modal.init(elems);
 });
+const renderPreloader = function () {
+  preLoader.classList.add("active");
+  todoContainer.classList.add("center-align");
+  todoContainer.append(preLoader);
+};
 function setupUI(user) {
   if (user) {
     loginItems.forEach((item) => (item.style.display = "block"));
@@ -106,10 +116,9 @@ loginForm.addEventListener("submit", (e) => {
   const email = loginForm["login-email"].value;
   const password = loginForm["login-password"].value;
 
-  todoContainer.classList.add("center-align");
-  preLoader.classList.add("active");
   todoContainer.innerHTML = `<h3 class="center-align">Loging in...</h3>`;
-  todoContainer.append(preLoader);
+  renderPreloader();
+
   setTimeout(() => {
     signIn(auth, email, password)
       .then(() => {
@@ -124,7 +133,7 @@ loginForm.addEventListener("submit", (e) => {
       .catch((err) => {
         loginForm.querySelector(".error").innerHTML = err.message;
       });
-  }, 1000);
+  }, PRELOADER_TIMER * 1000);
 });
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -153,4 +162,28 @@ logout.addEventListener("click", (e) => {
 auth.onAuthStateChanged((user) => {
   getTodos();
   setupUI(user);
+});
+
+forgotPasswordBtn.addEventListener("click", () => {
+  // get email from email input
+  const email = forgotEmailInput.value;
+  resetPassword(auth, email)
+    .then(() => {
+      // Password reset email sent.
+      console.log("Password reset email sent successfully.");
+
+      // Show a message to the user indicating that the email was sent
+      renderPreloader();
+      setTimeout(() => {
+        todoContainer.innerHTML = `<h4 class="center-align">A password reset email has been sent to "${email}"</h4>`;
+      }, PRELOADER_TIMER * 1000);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(`${errorCode} : ${errorMessage}`);
+      //  Show an error message to the user
+      todoContainer.innerHTML = `<h4 class="center-align">${errorMessage}</h4>`;
+    });
 });

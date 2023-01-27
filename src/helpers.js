@@ -14,7 +14,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 const db = getFirestore();
@@ -90,4 +90,8 @@ export const renderList = function (todos, doc) {
           </li>
     `;
   todoContainer.insertAdjacentHTML("beforeend", markup);
+};
+
+export const resetPassword = (auth, email) => {
+  return sendPasswordResetEmail(auth, email);
 };
