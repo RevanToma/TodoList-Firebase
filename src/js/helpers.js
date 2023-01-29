@@ -152,6 +152,15 @@ export const renderPreloader = function (preLoader, todoContainer) {
   todoContainer.classList.add("center-align");
   todoContainer.append(preLoader);
 };
+export const renderPreloaderForgotPassword = function (
+  preLoader,
+  todoContainer
+) {
+  preLoader.classList.add("active");
+  todoContainer.classList.add("center-align");
+  todoContainer.innerHTML = `<h3>Processing...</h3>`;
+  todoContainer.append(preLoader);
+};
 
 export const hideBtns = function (deleteCompletedTasksBtn, markAllTasksBtn) {
   deleteCompletedTasksBtn.classList.add("hidden");

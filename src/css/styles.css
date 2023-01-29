@@ -20,3 +20,18 @@
 #delete_all-completed-tasks {
   margin-right: 0.5rem;
 }
+.collection-item {
+  border-bottom: 1px solid #2ab6a8 !important;
+}
+#todo-list {
+  border-bottom: none !important;
+}
+#user-email {
+  margin-left: 1rem !important;
+}
+#logout {
+  padding: 0px 5px !important;
+}
+.editContainer > span {
+  font-size: 1.2rem;
+}

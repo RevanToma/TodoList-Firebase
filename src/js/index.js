@@ -12,6 +12,7 @@ import {
   renderPreloader,
   showBtns,
   hideBtns,
+  renderPreloaderForgotPassword,
 } from "./helpers.js";
 import {
   todoContainer,
@@ -29,6 +30,7 @@ import {
   PRELOADER_TIMER,
   deleteCompletedTasksBtn,
   markAllTasksBtn,
+  PRELOADER_TIMER_FORGOT_PASSWORD,
 } from "./config.js";
 import { getAuth } from "firebase/auth";
 import { createUser, signIn } from "./auth.js";
@@ -131,7 +133,7 @@ loginForm.addEventListener("submit", (e) => {
   const password = loginForm["login-password"].value;
 
   // add login animation
-  todoContainer.innerHTML = `<h3 class="center-align">Loging in...</h3>`;
+  todoContainer.innerHTML = `<h3 class="center-align">Logging in...</h3>`;
   renderPreloader(preLoader, todoContainer);
 
   // display users tasks after preloader.
@@ -192,10 +194,12 @@ forgotPasswordBtn.addEventListener("click", () => {
       console.log("Password reset email sent successfully.");
 
       // Show a message to the user indicating that the email was sent
-      renderPreloader(preLoader, todoContainer);
+      renderPreloaderForgotPassword(preLoader, todoContainer);
+
       setTimeout(() => {
-        todoContainer.innerHTML = `<h4 class="center-align">A password reset email has been sent to "${email}"</h4>`;
-      }, PRELOADER_TIMER * 1000);
+        todoContainer.innerHTML = `<h4 class="center-align">A password reset email has been sent to "${email}"</h4>
+        <h5>Please follow the instructions sent to your email to reset your password.</h5>`;
+      }, PRELOADER_TIMER_FORGOT_PASSWORD * 1000);
     })
     .catch((error) => {
       // Handle Errors here.

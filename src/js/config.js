@@ -25,3 +25,4 @@ export const deleteCompletedTasksBtn = document.querySelector(
 );
 export const markAllTasksBtn = document.querySelector("#mark_all-tasks");
 export const PRELOADER_TIMER = 1.2;
+export const PRELOADER_TIMER_FORGOT_PASSWORD = 2;
