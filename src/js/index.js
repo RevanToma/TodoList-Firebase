@@ -151,6 +151,7 @@ loginForm.addEventListener("submit", (e) => {
       })
       .catch((err) => {
         loginForm.querySelector(".error").innerHTML = err.message;
+        todoContainer.innerHTML = err.message;
       });
   }, PRELOADER_TIMER * 1000);
 });
