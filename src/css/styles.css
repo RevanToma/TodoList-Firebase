@@ -35,3 +35,7 @@
 .editContainer > span {
   font-size: 1.2rem;
 }
+#footer_copyright {
+  text-align: center;
+  font-size: 0.6rem;
+}
