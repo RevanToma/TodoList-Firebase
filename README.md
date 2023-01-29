@@ -13,6 +13,7 @@ A small school project using firebase to build todo-list app.
   <li>Edit & Delete Task</li>
   <li>Mark all tasks & Delete all Tasks</li>
 </ul>
+
 # Acknowledgments
 
 [Acknowledgments](https://materializecss.com/)
