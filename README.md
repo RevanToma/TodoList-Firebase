@@ -16,7 +16,8 @@ A small school project using firebase to build todo-list app.
 
 # Acknowledgments
 
-[Acknowledgments](https://materializecss.com/)
+[Materialize](https://materializecss.com/)
+[Firebase](https://firebase.google.com/)
 
 # Author
 
