@@ -20,4 +20,8 @@ export const EMAIL = document.querySelector("#user-email");
 export const forgotPasswordBtn = document.querySelector("#forgotPassword");
 export const forgotEmailInput = document.querySelector("#forgotPassword-email");
 export const preLoader = document.querySelector(".preloader-wrapper");
-export const PRELOADER_TIMER = 1.5;
+export const deleteCompletedTasksBtn = document.querySelector(
+  "#delete_all-completed-tasks"
+);
+export const markAllTasksBtn = document.querySelector("#mark_all-tasks");
+export const PRELOADER_TIMER = 1.2;

@@ -2,7 +2,7 @@
   "name": "todo-list-firebase",
   "version": "1.0.0",
   "description": "Todo List",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "build": "webpack --watch --mode=development"
   },

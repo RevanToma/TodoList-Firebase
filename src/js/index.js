@@ -1,11 +1,18 @@
 import {
+  completedTask,
   saveTask,
   onGetTasks,
   deleteTask,
   updateTask,
   renderList,
   resetPassword,
-} from "./helpers";
+  deleteCompletedTasks,
+  markAllTodos,
+  setupUI,
+  renderPreloader,
+  showBtns,
+  hideBtns,
+} from "./helpers.js";
 import {
   todoContainer,
   form,
@@ -20,6 +27,8 @@ import {
   forgotEmailInput,
   preLoader,
   PRELOADER_TIMER,
+  deleteCompletedTasksBtn,
+  markAllTasksBtn,
 } from "./config.js";
 import { getAuth } from "firebase/auth";
 import { createUser, signIn } from "./auth.js";
@@ -34,20 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const elems = document.querySelectorAll(".modal");
   const instances = M.Modal.init(elems);
 });
-const renderPreloader = function () {
-  preLoader.classList.add("active");
-  todoContainer.classList.add("center-align");
-  todoContainer.append(preLoader);
-};
-function setupUI(user) {
-  if (user) {
-    loginItems.forEach((item) => (item.style.display = "block"));
-    logoutItems.forEach((item) => (item.style.display = "none"));
-  } else {
-    loginItems.forEach((item) => (item.style.display = "none"));
-    logoutItems.forEach((item) => (item.style.display = "block"));
-  }
-}
+
+/**
+ *
+ * @param {string} gets first auth user, then displays the logged in email. Then renders the todolist for the current user. Add handlers for the tasks.
+ */
 function getTodos() {
   todoContainer.innerHTML = "";
   currentUser = auth.currentUser;
@@ -56,6 +56,7 @@ function getTodos() {
   if (currentUser === null) {
     todoContainer.innerHTML = `<h3 class="center-align">Please login to use the Todo-list App</h3>`;
 
+    hideBtns(deleteCompletedTasksBtn, markAllTasksBtn);
     return;
   }
 
@@ -68,18 +69,26 @@ function getTodos() {
 
       if (todos.user === currentUser.uid) {
         // render the added todo
+
         renderList(todos, doc);
+        showBtns(deleteCompletedTasksBtn, markAllTasksBtn);
       }
 
       todoContainer.addEventListener("click", (e) => {
         const deleteBtn = e.target.closest(".delete");
         const edit = e.target.closest(".modal-trigger");
         const id = e.target.parentElement.parentElement.getAttribute("data-id");
+        const notCompleted = e.target.closest(".not_completed");
 
-        // if delete btn clicked remove todo list
-        if (deleteBtn) {
-          deleteTask(id);
+        // if checkmarked update task to completed.
+        if (notCompleted) {
+          completedTask(id, notCompleted);
         }
+
+        if (deleteBtn)
+          // if delete btn clicked remove todo list
+          deleteTask(id);
+
         if (edit) {
           // get the clicked id
           updateID =
@@ -105,26 +114,34 @@ form.addEventListener("submit", (e) => {
 
   // add new todo.
   form.title.value
-    ? saveTask({ title: form.title.value, user: currentUser.uid })
+    ? saveTask({
+        title: form.title.value,
+        user: currentUser.uid,
+        completed: false,
+      })
     : (form.title.value = "");
   form.title.value = "";
 });
 
+// login form.
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = loginForm["login-email"].value;
   const password = loginForm["login-password"].value;
 
+  // add login animation
   todoContainer.innerHTML = `<h3 class="center-align">Loging in...</h3>`;
-  renderPreloader();
+  renderPreloader(preLoader, todoContainer);
 
+  // display users tasks after preloader.
   setTimeout(() => {
     signIn(auth, email, password)
       .then(() => {
         const modal = document.querySelector("#modal-login");
         M.Modal.getInstance(modal).close();
         loginForm.reset();
+
         preLoader.classList.remove("active");
         todoContainer.classList.remove("center-align");
 
@@ -135,12 +152,14 @@ loginForm.addEventListener("submit", (e) => {
       });
   }, PRELOADER_TIMER * 1000);
 });
+// signup form
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = signupForm["signup-email"].value;
   const password = signupForm["signup-password"].value;
 
+  // create a user.
   createUser(auth, email, password)
     .then(() => {
       const modal = document.querySelector("#modal-signup");
@@ -153,17 +172,17 @@ signupForm.addEventListener("submit", (e) => {
       signupForm.querySelector(".error").innerHTML = err.message;
     });
 });
+// logout user.
 logout.addEventListener("click", (e) => {
   e.preventDefault();
-
   auth.signOut();
 });
 
 auth.onAuthStateChanged((user) => {
   getTodos();
-  setupUI(user);
+  setupUI(user, loginItems, logoutItems);
 });
-
+// forgot password.
 forgotPasswordBtn.addEventListener("click", () => {
   // get email from email input
   const email = forgotEmailInput.value;
@@ -173,7 +192,7 @@ forgotPasswordBtn.addEventListener("click", () => {
       console.log("Password reset email sent successfully.");
 
       // Show a message to the user indicating that the email was sent
-      renderPreloader();
+      renderPreloader(preLoader, todoContainer);
       setTimeout(() => {
         todoContainer.innerHTML = `<h4 class="center-align">A password reset email has been sent to "${email}"</h4>`;
       }, PRELOADER_TIMER * 1000);
@@ -186,4 +205,12 @@ forgotPasswordBtn.addEventListener("click", () => {
       //  Show an error message to the user
       todoContainer.innerHTML = `<h4 class="center-align">${errorMessage}</h4>`;
     });
+});
+// Mark all tasks as completed.
+markAllTasksBtn.addEventListener("click", () => {
+  markAllTodos(currentUser);
+});
+// Delete all completed tasks.
+deleteCompletedTasksBtn.addEventListener("click", () => {
+  deleteCompletedTasks(currentUser);
 });
