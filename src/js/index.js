@@ -155,6 +155,7 @@ loginForm.addEventListener("submit", (e) => {
       });
   }, PRELOADER_TIMER * 1000);
 });
+
 // signup form
 signupForm.addEventListener("submit", (e) => {
   e.preventDefault();

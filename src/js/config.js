@@ -23,6 +23,7 @@ export const preLoader = document.querySelector(".preloader-wrapper");
 export const deleteCompletedTasksBtn = document.querySelector(
   "#delete_all-completed-tasks"
 );
+
 export const markAllTasksBtn = document.querySelector("#mark_all-tasks");
 export const PRELOADER_TIMER = 1.2;
 export const PRELOADER_TIMER_FORGOT_PASSWORD = 2;
