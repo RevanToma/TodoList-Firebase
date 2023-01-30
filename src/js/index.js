@@ -1,5 +1,5 @@
 import {
-  completedTask,
+  toggleCompletion,
   saveTask,
   onGetTasks,
   deleteTask,
@@ -13,6 +13,7 @@ import {
   showBtns,
   hideBtns,
   renderPreloaderForgotPassword,
+  getTask,
 } from "./helpers.js";
 import {
   todoContainer,
@@ -81,12 +82,16 @@ function getTodos() {
         const edit = e.target.closest(".modal-trigger");
         const id = e.target.parentElement.parentElement.getAttribute("data-id");
         const notCompleted = e.target.closest(".not_completed");
+        const completedTask = e.target.closest(".completed");
 
         // if checkmarked update task to completed.
         if (notCompleted) {
-          completedTask(id, notCompleted);
+          updateTask(id, { completed: true });
         }
-
+        //if unchecked update task to uncompleted.
+        if (completedTask) {
+          updateTask(id, { completed: false });
+        }
         if (deleteBtn)
           // if delete btn clicked remove todo list
           deleteTask(id);
@@ -186,7 +191,9 @@ auth.onAuthStateChanged((user) => {
   setupUI(user, loginItems, logoutItems);
 });
 // forgot password.
-forgotPasswordBtn.addEventListener("click", () => {
+forgotPasswordBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
   // get email from email input
   const email = forgotEmailInput.value;
   resetPassword(auth, email)
@@ -208,7 +215,10 @@ forgotPasswordBtn.addEventListener("click", () => {
       const errorMessage = error.message;
       console.error(`${errorCode} : ${errorMessage}`);
       //  Show an error message to the user
-      todoContainer.innerHTML = `<h4 class="center-align">${errorMessage}</h4>`;
+      renderPreloaderForgotPassword(preLoader, todoContainer);
+      setTimeout(() => {
+        todoContainer.innerHTML = `<h4 class="center-align">${errorMessage}</h4>`;
+      }, PRELOADER_TIMER_FORGOT_PASSWORD * 1000);
     });
 });
 // Mark all tasks as completed.

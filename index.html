@@ -22,8 +22,10 @@
       <div class="nav-wrapper container">
         <a href="#" class="brand-logo right">Todo</a>
         <ul id="nav-mobile">
+          <li><i class="material-icons">exit_to_app</i></li>
           <li class="logged-in"><a href="#" id="logout">Logout</a></li>
           <li class="logged-in" id="user-email"></li>
+          <li><i class="material-icons user">person_outline</i></li>
           <li class="logged-out">
             <a href="#" class="modal-trigger" data-target="modal-login"
               >Login</a
@@ -41,7 +43,7 @@
 
     <div class="container">
       <form id="add-todo-form" class="logged-in">
-        <input type="text" name="title" placeholder="Add Task" />
+        <input type="text" name="title" placeholder="Add Task" class="" />
         <button class="waves-effect waves-light btn">Add Task</button>
       </form>
       <div class="settings">

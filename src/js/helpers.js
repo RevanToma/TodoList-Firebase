@@ -110,31 +110,23 @@ export const renderList = function (todos, doc) {
                 <span>${todos.title}</span>              
                 <i class="material-icons secondary-content delete small">delete</i>
                 <a href="#modal-edit" class="modal-trigger secondary-content">
-                <i class="material-icons small">edit</i></a>               
+                <i class="material-icons small">edit</i></a>
                 <i class="small material-icons not_completed secondary-content">${
                   todos.completed ? "check_box" : "check_box_outline_blank"
-                }</i>
+                }</i> 
+                <i class="small material-icons completed secondary-content">clear</i>
                
             </div>
-            </li>
+          </li>
         </div>
     `;
   todoContainer.insertAdjacentHTML("beforeend", markup);
 };
-
 // reset passowrd.
 export const resetPassword = (auth, email) => {
   return sendPasswordResetEmail(auth, email);
 };
-// mark 1 task as completed
-export const completedTask = function (id, ele) {
-  updateTask(id, { completed: true });
-  ele.textContent = "check_box";
-};
-// mark all tasks as completed.
-export const markAllTasks = function (id) {
-  updateTask(id, { completed: true });
-};
+
 // setup items when user logg in.
 export const setupUI = function (user, loginItems, logoutItems) {
   if (user) {
