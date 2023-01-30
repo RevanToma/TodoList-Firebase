@@ -1,5 +1,4 @@
 import {
-  toggleCompletion,
   saveTask,
   onGetTasks,
   deleteTask,
@@ -13,7 +12,7 @@ import {
   showBtns,
   hideBtns,
   renderPreloaderForgotPassword,
-  getTask,
+  toggleCompleted,
 } from "./helpers.js";
 import {
   todoContainer,
@@ -82,16 +81,12 @@ function getTodos() {
         const edit = e.target.closest(".modal-trigger");
         const id = e.target.parentElement.parentElement.getAttribute("data-id");
         const notCompleted = e.target.closest(".not_completed");
-        const completedTask = e.target.closest(".completed");
 
-        // if checkmarked update task to completed.
+        // if checkmarked update task to completed/uncomplete.
         if (notCompleted) {
-          updateTask(id, { completed: true });
+          toggleCompleted(id);
         }
-        //if unchecked update task to uncompleted.
-        if (completedTask) {
-          updateTask(id, { completed: false });
-        }
+
         if (deleteBtn)
           // if delete btn clicked remove todo list
           deleteTask(id);

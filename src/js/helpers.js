@@ -36,17 +36,30 @@ export const saveTask = (title, description = undefined) => {
     ...description,
   });
 };
+// , "==", false
 // mark all tasks comepleted.
 export const markAllTodos = function (currentUser) {
   collection(db, "todos"),
-    where("completed", "==", false),
+    where("completed"),
     where("user", "==", currentUser.uid),
     getTasks().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // const complete = doc.data().complete;
+        const tasks = doc.data();
         updateTask(doc.id, {
-          completed: true,
+          completed: !tasks.completed ? true : false,
         });
+      });
+    });
+};
+// gets the id of the current clicked task, and sets task to completed / uncompleted.
+export const toggleCompleted = function (id) {
+  collection(db, "todos"),
+    where("completed"),
+    where("user", "==", id),
+    getTask(id).then((doc) => {
+      const task = doc.data();
+      updateTask(doc.id, {
+        completed: !task.completed ? true : false,
       });
     });
 };
@@ -106,7 +119,7 @@ export const renderList = function (todos, doc) {
   let markup = `
       <div>
       <li class="collection-item" data-id="${doc.id}">
-            <div class="editContainer">
+            <div class="editContainer ">
                 <span>${todos.title}</span>              
                 <i class="material-icons secondary-content delete small">delete</i>
                 <a href="#modal-edit" class="modal-trigger secondary-content">
@@ -114,9 +127,8 @@ export const renderList = function (todos, doc) {
                 <i class="small material-icons not_completed secondary-content">${
                   todos.completed ? "check_box" : "check_box_outline_blank"
                 }</i> 
-                <i class="small material-icons completed secondary-content">clear</i>
                
-            </div>
+                </div>
           </li>
         </div>
     `;

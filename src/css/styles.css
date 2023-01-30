@@ -55,3 +55,6 @@ input::placeholder {
   opacity: 0.5;
   color: red;
 }
+.lineThru {
+  text-decoration: line-through;
+}
